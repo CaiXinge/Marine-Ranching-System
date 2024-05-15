@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>海洋牧场智慧监测系统（管理员）</title>
+    <link rel="stylesheet" href="static/plugins/bootstrap-3.4.1-dist/css/bootstrap.css">
+    <style>
+        body, html {
+          height: 100%;
+          margin: 0;
+        }
+        .row {
+          display: flex;
+          height: 100vh;
+        }
+        .col {
+          flex: 1;
+          padding: 10px;
+          border: 1px solid #000;
+        }
+        .col:first-child {
+          display: flex;
+          flex-direction: column;
+        }
+        .col:first-child > div {
+          flex: 1;
+          border: 1px solid #000;
+          margin-bottom: 10px;
+        }
+        .col:nth-child(2) {
+          display: flex;
+          flex-direction: column;
+        }
+        .col:nth-child(2) > div {
+          flex: 1;
+          border: 1px solid #000;
+          margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col">
+            <div>添加系统用户</div>
+            <div>删除系统用户</div>
+        </div>
+        <div class="col">
+            <div>更改用户信息</div>
+            <div>查询用户详细信息</div>
+        </div>
+        <div class="col">
+            <div>系统用户名单</div>
+        </div>
+    </div>
+</body>
+</html>

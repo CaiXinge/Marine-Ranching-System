@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>海洋牧场智慧监测系统</title>
+    <link rel="stylesheet" href="static/plugins/bootstrap-3.4.1-dist/css/bootstrap.css">
+    <style>
+        body, html {
+          height: 100%;
+          margin: 0;
+        }
+        .row {
+          display: flex;
+          height: 100vh;
+        }
+        .col {
+          flex: 1;
+          padding: 10px;
+          border: 1px solid #000;
+        }
+        .col:first-child {
+          display: flex;
+          flex-direction: column;
+        }
+        .col:first-child > div {
+          flex: 1;
+          border: 1px solid #000;
+          margin-bottom: 10px;
+        }
+        .col:nth-child(2) {
+          display: flex;
+          flex-direction: column;
+        }
+        .col:nth-child(2) > div {
+          flex: 1;
+          border: 1px solid #000;
+          margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a href="/user">主要信息</a></li>
+        <li role="presentation"><a href="/underwater_system">水下系统</a></li>
+        <li role="presentation"><a href="/data_center">数据中心</a></li>
+        <li role="presentation"><a href="/intelligent_center">智能中心</a></li>
+    </ul>
+    <div class="row">
+        <div class="col">
+            <div>视频展示区域</div>
+            <div>附加功能区域</div>
+        </div>
+        <div class="col">
+            <div>水文数据展示区域</div>
+            <div>海洋牧场位置展示区域</div>
+        </div>
+        <div class="col">
+            <div>历史水文数据展示区域</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>海洋牧场智慧监测系统</title>
+    <link rel="stylesheet" href="static/plugins/bootstrap-3.4.1-dist/css/bootstrap.css">
+    <style>
+        body, html {
+          height: 100%;
+          margin: 0;
+        }
+        .row {
+          display: flex;
+          height: 50vh;
+        }
+        .col {
+          flex: 1;
+          padding: 10px;
+          border: 1px solid #000;
+        }
+        .col:first-child {
+          display: flex;
+          flex-direction: column;
+        }
+        .col:first-child > div:first-child {
+          flex: 1;
+          border: 1px solid #000;
+          margin-bottom: 10px;
+        }
+        .col:first-child > div:last-child {
+          flex: 3;
+          border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <ul class="nav nav-pills">
+        <li role="presentation"><a href="/user">主要信息</a></li>
+        <li role="presentation" class="active"><a href="/underwater_system">水下系统</a></li>
+        <li role="presentation"><a href="/data_center">数据中心</a></li>
+        <li role="presentation"><a href="/intelligent_center">智能中心</a></li>
+    </ul>
+    <div class="row">
+        <div class="col">
+            <div>鱼群数量及变化展示</div>
+            <div>环境得分计算</div>
+        </div>
+        <div class="col">
+            <div>总信息统计展示区域</div>
+        </div>
+        <div class="col">
+            <div>硬件信息区域</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div>某鱼群数量变化区域</div>
+        </div>
+        <div class="col">
+            <div>鱼群统计信息区域</div>
+        </div>
+        <div class="col">
+            <div>鱼群种类统计区域</div>
+        </div>
+    </div>
+</body>
+</html>
