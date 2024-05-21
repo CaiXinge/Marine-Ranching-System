@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import db_query
 
 app = Flask(__name__)
+app.config['SECRET_KEY']='gsolvit'
 
 
 @app.route('/')
@@ -39,10 +40,10 @@ def user_login():
     if request.method == 'GET':
         return render_template('user_login.html')
     else:
-        email = request.form.get('email')
+        user_id = request.form.get('user_id')
         password = request.form.get('password')
-        sql = 'select* from user where email=%s and password=%s'
-        result = db_query.db_query(sql, [email,password])
+        sql = 'select* from user where user_id=%s and password=%s'
+        result = db_query.db_query(sql, [user_id,password])
         print(result)
         if len(result) != 0:
             return redirect(url_for(('user')))
@@ -80,14 +81,14 @@ def user_register():
     if request.method == 'GET':
         return render_template('user_register.html')
     else:
-        email = request.form.get('email')
+        user_id = request.form.get('user_id')
         password = request.form.get('password1')
         sql = 'select* from user where email=%s'
-        result = db_query.db_query(sql, [email])
+        result = db_query.db_query(sql, [user_id])
         print(result)
         if len(result) == 0:
             sql='insert into user(email,password) values(%s,%s)'
-            db_query.db_query(sql, [email,password])
+            db_query.db_query(sql, [user_id,password])
             return '注册成功！'
         else:
             return '用户已注册！'
