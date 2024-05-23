@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 import db_query
 
@@ -25,9 +25,10 @@ def admin_login():
             if result[0]['password'] == password:
                 return redirect(url_for(('admin')))
             else:
-                return '账号或密码错误'
+                error = '账号或密码错误'
         else:
-            return '账号或密码错误'
+            error = '账号或密码错误'
+        return render_template('admin_login.html',error=error)
 
 
 @app.route('/admin')
@@ -48,7 +49,8 @@ def user_login():
         if len(result) != 0:
             return redirect(url_for(('user')))
         else:
-            return '账号或密码错误'
+            error = '账号或密码错误'
+            return render_template('user_login.html', error=error)
 
 
 @app.route('/user')
@@ -83,15 +85,17 @@ def user_register():
     else:
         user_id = request.form.get('user_id')
         password = request.form.get('password1')
-        sql = 'select* from user where email=%s'
+        sql = 'select* from user where user_id=%s'
         result = db_query.db_query(sql, [user_id])
         print(result)
         if len(result) == 0:
-            sql='insert into user(email,password) values(%s,%s)'
+            sql='insert into user(user_id,password) values(%s,%s)'
             db_query.db_query(sql, [user_id,password])
-            return '注册成功！'
+            success='注册成功'
+            return render_template('user_login.html', success=success)
         else:
-            return '用户已注册！'
+            error = '注册失败'
+            return render_template('user_register.html', error=error)
 
 
 
