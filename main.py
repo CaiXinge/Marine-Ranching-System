@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 
 import db_query
+import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY']='gsolvit'
@@ -53,9 +54,26 @@ def user_login():
             return render_template('user_login.html', error=error)
 
 
-@app.route('/user')
+@app.route('/user', methods=['GET', 'POST'])
 def user():
-    return render_template('user_index.html')
+    sql = 'select* from 水质数据 where date=%s'
+    result = db_query.db_query(sql, datetime.date.today())
+    print(result)
+    if request.method=='GET':
+        return render_template('user_index.html', water_quality=result)
+    else:
+        start_date_str=request.form.get('startDate')
+        end_date_str=request.form.get('endDate')
+        feature=request.form.get('feature')
+        print(start_date_str,end_date_str,feature)
+        start_date = datetime.datetime.strptime(start_date_str, '%Y-%m-%d').date()
+        end_date = datetime.datetime.strptime(end_date_str, '%Y-%m-%d').date()
+        sql = 'select * from 水质数据 where date BETWEEN %s AND %s'
+        result1 = db_query.db_query(sql, [start_date, end_date])
+        for data in result1:
+            print(data)
+        return render_template('user_index.html', water_quality=result, history_data=result1,feature=feature)
+
 
 
 @app.route('/main_information')
