@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
     <title>海洋牧场智慧监测系统</title>
@@ -45,7 +45,7 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row" style="height: 50px; line-height: 50px;">
+    <div style="height: 50px; line-height: 50px;">
         <div class="col-sm-8">
             <ul class="nav nav-pills">
                 <li role="presentation" class="active"><a href="/user">主要信息</a></li>
@@ -58,8 +58,8 @@
             <span class="date-time" id="dateTime"></span>
         </div>
     </div>
-    <div class="row" style="height: calc(100% - 50px);">
-        <div class="col-sm-8">
+    <div style="height: calc(100% - 50px);">
+        <div class="col-sm-8" >
             <div class="col-sm-6">
                 <div class="video-container">
                     <p class="video-title">视频展示1</p>
@@ -216,7 +216,7 @@
             labels.push(historyData[i].date.toString());
             featureValues.push(historyData[i][feature]);
         }
-var ctx = document.getElementById('historicalDataChart').getContext('2d');
+        var ctx = document.getElementById('historicalDataChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -270,5 +270,4 @@ var ctx = document.getElementById('historicalDataChart').getContext('2d');
 </script>
 </body>
 </html>
-</body>
-</html>
+
