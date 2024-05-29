@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-
+import psutil
 import db_query
 import datetime
 from environment_rank import total_rank
@@ -91,7 +91,7 @@ def underwater_system():
     species = [item['Species'] for item in species_num]
     if request.method == 'GET':
         return render_template('underwater_system.html', rank=rank, nums=nums, specie_num=len(species_num),
-                               species=species,species_num=species_num)
+                               species=species, species_num=species_num)
     else:
         specie = request.form.get('specie')
         feature = request.form.get('feature')
@@ -103,12 +103,26 @@ def underwater_system():
         data = [item[feature] for item in result]
         print(data)
         return render_template('underwater_system.html', rank=rank, nums=nums, specie_num=len(species_num),
-                               species=species, data=data, feature=feature, fish=specie,species_num=species_num)
+                               species=species, data=data, feature=feature, fish=specie, species_num=species_num)
 
 
 @app.route('/data_center')
 def data_center():
-    return render_template('data_center.html')
+    sql_data_size = 'SELECT TABLE_schema AS "Database",SUM(data_length+index_length)/1024 AS "Size(KB)" FROM information_schema.`TABLES`WHERE table_schema="marineranching_system"'
+    result1 = db_query.db_query(sql_data_size)
+    print(result1)
+    pids = psutil.pids()
+    cpu_times = psutil.cpu_times()
+    mem = psutil.virtual_memory()
+    disk = psutil.disk_usage('/')
+    print(len(pids))
+    print(cpu_times)
+    print(mem)
+    print(disk)
+    sql_device='SELECT* FROM device'
+    device_result=db_query.db_query(sql_device)
+    print(device_result)
+    return render_template('data_center.html',data_size=result1[0]['Size(KB)'],pids=len(pids),cpu_times=cpu_times,mem=mem,disk=disk,device_result=device_result)
 
 
 @app.route('/intelligent_center')

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>海洋牧场智慧监测系统</title>
     <link rel="stylesheet" href="static/plugins/bootstrap-3.4.1-dist/css/bootstrap.css">
-    <script src="https://kit.fontawesome.com/908d56dbea.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/plugins/fontawesome-free-6.5.2-web/css/all.css">
+    <script src="static/plugins/fontawesome-free-6.5.2-web/js/all.js"></script>
     <script src="static/js/chart.js"></script>
     <style>
         body{
@@ -84,7 +85,7 @@
     <div style="height:calc(100%-50px);">
         <div class="col-sm-8">
             <div class="col-sm-7">
-                <div style="height: 50%;padding:5px">
+                <div style="height: 50%;padding:5px;">
                     <p class="title">海洋牧场环境等级</p>
                     <div class="text-center">
                         {% if rank[0] == 'Ⅰ' %}
@@ -106,7 +107,7 @@
                         <p class="title">总氮类别: {{ rank[5] }}</p>
                     </div>
                 </div>
-                <div style="height: 50%;padding:5px">
+                <div style="height: 50%;padding:5px;">
                     <p class="title">鱼群数量变化（2015年至今）</p>
                     <canvas id="fishNumChart"></canvas>
                 </div>
@@ -175,7 +176,7 @@
         </div>
 
         <div class="col-sm-4">
-            <div style="height: 50%;padding:10px">
+            <div style="height: 50%;padding:10px;">
                 <p class="title">硬件信息</p>
                 <div class="hardware-info-container">
                     <div class="hardware-info-item">
