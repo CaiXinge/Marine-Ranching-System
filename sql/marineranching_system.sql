@@ -11,7 +11,7 @@
  Target Server Version : 80037 (8.0.37)
  File Encoding         : 65001
 
- Date: 29/05/2024 14:58:05
+ Date: 03/06/2024 22:22:22
 */
 
 SET NAMES utf8mb4;
@@ -270,16 +270,9 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('', '');
-INSERT INTO `user` VALUES ('1', '123456');
-INSERT INTO `user` VALUES ('123@mail.com', '123456');
-INSERT INTO `user` VALUES ('1234@mail.com', '123456');
 INSERT INTO `user` VALUES ('123456@mail.com', '123456');
-INSERT INTO `user` VALUES ('2', '123456');
-INSERT INTO `user` VALUES ('3', '123456');
 INSERT INTO `user` VALUES ('456@mail.com', '123456');
 INSERT INTO `user` VALUES ('789@mail.com', '123456');
-INSERT INTO `user` VALUES ('987@mail.com', '123456');
 
 -- ----------------------------
 -- Table structure for 水质数据

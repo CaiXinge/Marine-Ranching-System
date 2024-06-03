@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_file
 import psutil
 import db_query
 import datetime
 from environment_rank import total_rank
+import openpyxl
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'gsolvit'
@@ -25,7 +26,7 @@ def admin_login():
         print(result)
         if len(result) != 0:
             if result[0]['password'] == password:
-                return redirect(url_for(('admin')))
+                return render_template('admin_index.html')
             else:
                 error = '账号或密码错误'
         else:
@@ -33,9 +34,76 @@ def admin_login():
         return render_template('admin_login.html', error=error)
 
 
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    return render_template('admin_index.html')
+    if request.method == 'GET':
+        return render_template('admin_index.html')
+    else:
+        table_name = request.form.get('table-name')
+        print(table_name)
+        sql = 'select* from ' + table_name
+        data = db_query.db_query(sql)
+        return render_template('admin_index.html', data=data, table_name=table_name)
+
+
+@app.route('/add_item', methods=['POST'])
+def add_item():
+    table_name = request.form['table_name']
+    form_data = request.form.to_dict()
+    del form_data['table_name']
+    print(table_name)
+    print(form_data)
+    columns = ', '.join(form_data.keys())
+    placeholders = ', '.join(['%s'] * len(form_data))
+    insert_sql = f"INSERT INTO {table_name} ({columns}) VALUES ({placeholders})"
+    db_query.db_query(insert_sql, list(form_data.values()))
+    sql = 'select* from ' + table_name
+    data = db_query.db_query(sql)
+    return render_template('admin_index.html', data=data, table_name=table_name)
+
+
+@app.route('/delete_item', methods=['POST'])
+def delete_item():
+    table_name = request.form['table_name']
+    row = request.form['row']
+    print(table_name)
+    print(row)
+    sql_ = 'select* from ' + table_name
+    data = db_query.db_query(sql_)
+    d_item = data[int(row) - 1]
+    print(d_item)
+    where_clause = ' AND '.join([f"{key} = %s" for key in d_item])
+    delete_sql = f"DELETE FROM {table_name} WHERE {where_clause}"
+    print(delete_sql)
+    values = list(d_item.values())
+    print(values)
+    db_query.db_query(delete_sql, values)
+    data = db_query.db_query(sql_)
+    return render_template('admin_index.html', data=data, table_name=table_name)
+
+
+@app.route('/update_item', methods=['POST'])
+def update_item():
+    table_name = request.form['table_name']
+    row = request.form['row']
+    column = request.form['column']
+    value = request.form['value']
+    print(table_name)
+    print(row)
+    print(column)
+    print(value)
+    sql_ = 'select* from ' + table_name
+    data = db_query.db_query(sql_)
+    d_item = data[int(row) - 1]
+    print(d_item)
+    where_clause = ' AND '.join([f"{key} = %s" for key in d_item])
+    update_sql = f"UPDATE {table_name} SET {column} = %s WHERE {where_clause}"
+    print(update_sql)
+    args = [value] + list(d_item.values())
+    print(args)
+    db_query.db_query(update_sql, args)
+    data_ = db_query.db_query(sql_)
+    return render_template('admin_index.html', data=data_, table_name=table_name)
 
 
 @app.route('/user_login', methods=['GET', 'POST'])
@@ -119,15 +187,11 @@ def data_center():
     print(cpu_times)
     print(mem)
     print(disk)
-    sql_device='SELECT* FROM device'
-    device_result=db_query.db_query(sql_device)
+    sql_device = 'SELECT* FROM device'
+    device_result = db_query.db_query(sql_device)
     print(device_result)
-    return render_template('data_center.html',data_size=result1[0]['Size(KB)'],pids=len(pids),cpu_times=cpu_times,mem=mem,disk=disk,device_result=device_result)
-
-
-@app.route('/intelligent_center')
-def intelligent_center():
-    return render_template('intelligent_center.html')
+    return render_template('data_center.html', data_size=result1[0]['Size(KB)'], pids=len(pids), cpu_times=cpu_times,
+                           mem=mem, disk=disk, device_result=device_result)
 
 
 @app.route('/user_register', methods=['GET', 'POST'])
@@ -148,6 +212,22 @@ def user_register():
         else:
             error = '注册失败'
             return render_template('user_register.html', error=error)
+
+
+@app.route('/export-to-excel', methods=['POST'])
+def export_to_excel():
+    table_name = request.form['table']
+    sql = 'select* from ' + table_name
+    data = db_query.db_query(sql)
+    workbook = openpyxl.Workbook()
+    worksheet = workbook.active
+    worksheet.title = table_name
+    worksheet.append(list(data[0].keys()))
+    for row in data:
+        worksheet.append(list(row.values()))
+    file_name = f"{table_name}.xlsx"
+    workbook.save(file_name)
+    return send_file(file_name, as_attachment=True)
 
 
 if __name__ == '__main__':
